@@ -1,0 +1,83 @@
+create table worker_types(
+	type_id serial4 primary key,
+	title varchar(50)
+);
+
+create table workers(
+	worker_id serial4 primary key,
+	second_name varchar(30),
+	first_name varchar(30),
+	last_name varchar(30),
+	worker_type int4 references worker_types(type_id)
+);
+
+create table clients(
+	client_id serial4 primary key,
+	family varchar(30),
+	first_name varchar(30),
+	patronymic varchar(30),
+	birthday date,
+	place_of_birth varchar(255),
+	passport_series varchar(6),
+	passport_number varchar(4),
+	issused_by varchar(200),
+	when_issued date,
+	phone varchar(11)
+);
+
+create table room_types(
+	type_id serial4 primary key,
+	title varchar(50),
+	room_equipment text,
+	description text,
+	price decimal(10,2)
+);
+
+create table room_statuses(
+	status_id serial4 primary key,
+	title varchar(30)
+);
+
+create table rooms(
+	room_number int4 primary key,
+	room_floor smallint,
+	room_type int4 references room_types(type_id),
+	room_status int4 references room_statuses(status_id)
+);
+
+create table reservations(
+	reservation_id serial4 primary key,
+	room_id int4 references rooms(room_number),
+	client_id int4 references clients(client_id),
+	date_in date,
+	date_out date
+);
+
+create table additional_services(
+	additional_id serial4 primary key,
+	title varchar(100),
+	description text,
+	price decimal(10,2)
+);
+
+create table additional_for_reservations(
+	id_reservation int4 references reservations(reservation_id),
+	id_additional int4 references additional_services(additional_id)
+);
+
+create table cleaning_lists(
+	cleaning_id serial4 primary key,
+	worker_id int references workers(worker_id),
+	floor smallint
+);
+
+
+
+create table users(
+	user_id serial4 primary key,
+	worker_id int4 references workers(worker_id),
+	client_id int4 references clients(client_id),
+	user_name varchar(40) not null,
+	password varchar(100) not null
+);
+
