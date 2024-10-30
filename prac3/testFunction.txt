@@ -1,0 +1,15 @@
+CREATE OR REPLACE FUNCTION "04pracWithData".get_room_categories_count(price_from real, price_to real)
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+   room_categories_count integer;
+BEGIN
+   SELECT  count(*)
+   INTO room_categories_count
+   FROM room_categories
+   WHERE price BETWEEN price_from AND price_to;
+   RETURN room_categories_count;
+END;
+$function$
+;

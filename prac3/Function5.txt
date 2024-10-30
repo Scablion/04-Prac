@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION "04pracWithData".min_additional()
+ RETURNS character varying
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+   title_min varchar(300);
+   price_min decimal(10,2);
+BEGIN
+   SELECT title, price
+   INTO title_min
+   FROM additional_services
+   where price = (select min(price) from additional_services);
+   SELECT price
+   into price_min
+   FROM additional_services
+   where price = (select min(price) from additional_services);
+
+  return (title_min, price_min);
+END;
+$function$
+;

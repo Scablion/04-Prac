@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION "04pracWithData".max_additional()
+ RETURNS character varying
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+   title_max varchar(300);
+   price_max decimal(10,2);
+BEGIN
+   SELECT title, price
+   INTO title_max
+   FROM additional_services
+   where price = (select max(price) from additional_services);
+   SELECT price
+   into price_max
+   FROM additional_services
+   where price = (select max(price) from additional_services);
+
+  return (title_max, price_max);
+END;
+$function$
+;

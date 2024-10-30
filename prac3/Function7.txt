@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION "04pracWithData".min_expencive_room_category()
+ RETURNS character varying
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+   title_min varchar(300);
+   price_min decimal(10,2);
+BEGIN
+   SELECT title, price
+   INTO title_min
+   FROM room_categories
+   where price = (select min(price) from room_categories);
+   SELECT price
+   into price_min
+   FROM room_categories
+   where price = (select min(price) from room_categories);
+
+  return (title_min, price_min);
+END;
+$function$
+;

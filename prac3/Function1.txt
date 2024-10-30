@@ -1,0 +1,15 @@
+CREATE OR REPLACE FUNCTION "04pracWithData".client_birth_later(birthday_search date)
+ RETURNS integer
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+   clients_that_date_count integer;
+BEGIN
+   SELECT  count(*)
+   INTO clients_that_date_count
+   FROM clients
+   WHERE birthday < birthday_search;
+   RETURN clients_that_date_count;
+END;
+$function$
+;

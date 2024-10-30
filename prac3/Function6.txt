@@ -1,0 +1,21 @@
+CREATE OR REPLACE FUNCTION "04pracWithData".max_expencive_room_category()
+ RETURNS character varying
+ LANGUAGE plpgsql
+AS $function$
+DECLARE
+   title_max varchar(300);
+   price_max decimal(10,2);
+BEGIN
+   SELECT title, price
+   INTO title_max
+   FROM room_categories
+   where price = (select max(price) from room_categories);
+   SELECT price
+   into price_max
+   FROM room_categories
+   where price = (select max(price) from room_categories);
+
+  return (title_max, price_max);
+END;
+$function$
+;
